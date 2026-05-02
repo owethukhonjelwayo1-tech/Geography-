@@ -1,0 +1,37 @@
+Sub CreateSummaryTable(wsData As Worksheet, wsSummary As Worksheet, headerName As String, ByRef startRow As Long)
+
+    Dim col As Long, lastCol As Long, lastRow As Long
+    lastCol = wsData.Cells(1, wsData.Columns.Count).End(xlToLeft).Column
+
+    For col = 1 To lastCol
+        If wsData.Cells(1, col).Value = headerName Then Exit For
+    Next col
+
+    lastRow = wsData.Cells(wsData.Rows.Count, col).End(xlUp).Row
+
+    wsSummary.Cells(startRow, 1).Value = headerName
+    wsSummary.Cells(startRow, 1).Font.Bold = True
+
+    Dim dict As Object
+    Set dict = CreateObject("Scripting.Dictionary")
+
+    Dim i As Long, key As Variant
+    For i = 2 To lastRow
+        If wsData.Cells(i, col).Value <> "" Then
+            dict(wsData.Cells(i, col).Value) = dict(wsData.Cells(i, col).Value) + 1
+        End If
+    Next i
+
+    wsSummary.Cells(startRow + 1, 1).Value = "Category"
+    wsSummary.Cells(startRow + 1, 2).Value = "Frequency"
+
+    i = startRow + 2
+    For Each key In dict.Keys
+        wsSummary.Cells(i, 1).Value = key
+        wsSummary.Cells(i, 2).Value = dict(key)
+        i = i + 1
+    Next key
+
+    startRow = i + 2
+
+End Sub

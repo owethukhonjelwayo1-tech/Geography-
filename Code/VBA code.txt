@@ -1,0 +1,34 @@
+Option Explicit
+
+Sub Create_All_Tables_And_Graphs()
+
+    Dim wsData As Worksheet, wsSummary As Worksheet, wsGraphs As Worksheet
+    Set wsData = Sheets("Raw Data")
+    Set wsSummary = Sheets("Summary")
+    Set wsGraphs = Sheets("Graphs")
+
+    wsSummary.Cells.Clear
+    wsGraphs.Cells.Clear
+
+    Dim nextRow As Long
+    nextRow = 1
+
+    ' Create tables
+    CreateSummaryTable wsData, wsSummary, "What is your age group", nextRow
+    CreateColumnChart wsSummary, wsGraphs, nextRow - 6, "Age Group Distribution"
+
+    CreateSummaryTable wsData, wsSummary, "What is your gender", nextRow
+    CreatePieChart wsSummary, wsGraphs, nextRow - 6, "Gender Distribution"
+
+    CreateSummaryTable wsData, wsSummary, "What is your highest level of education", nextRow
+    CreateColumnChart wsSummary, wsGraphs, nextRow - 6, "Education Levels"
+
+    CreateSummaryTable wsData, wsSummary, "What type of informal business do you operate", nextRow
+    CreateColumnChart wsSummary, wsGraphs, nextRow - 6, "Type of Informal Business"
+
+    CreateSummaryTable wsData, wsSummary, "How much do you earn monthly from this business", nextRow
+    CreateColumnChart wsSummary, wsGraphs, nextRow - 6, "Monthly Income from Business"
+
+    MsgBox "All tables and graphs created successfully!", vbInformation
+
+End Sub

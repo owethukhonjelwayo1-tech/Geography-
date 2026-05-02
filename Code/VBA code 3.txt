@@ -1,0 +1,19 @@
+Sub CreateColumnChart(wsSummary As Worksheet, wsGraphs As Worksheet, tableStartRow As Long, chartTitle As String)
+
+    Dim lastRow As Long
+    lastRow = wsSummary.Cells(wsSummary.Rows.Count, 1).End(xlUp).Row
+
+    Dim cht As Chart
+    Set cht = wsGraphs.Shapes.AddChart2(227, xlColumnClustered).Chart
+
+    With cht
+        .SetSourceData wsSummary.Range("A" & tableStartRow + 1 & ":B" & lastRow)
+        .HasTitle = True
+        .ChartTitle.Text = chartTitle
+        .Axes(xlCategory).HasTitle = True
+        .Axes(xlCategory).AxisTitle.Text = "Categories"
+        .Axes(xlValue).HasTitle = True
+        .Axes(xlValue).AxisTitle.Text = "Number of Respondents"
+    End With
+
+End Sub
